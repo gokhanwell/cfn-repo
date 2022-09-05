@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Kittens Carousel is a static website application deployed with Apache Web Server on AWS Elastic Compute Cloud (EC2) Instance using AWS Cloudformation Service. 
+  
+Resources:
+  CfnInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-05fa00d4c63e32376
+      InstanceType: t2.micro
+      KeyName: firstkey
+      SecurityGroups:
+        - http-ssh-sec-grp  
+      Tags:
+        - Key: Name 
+          Value: Gokhan-cfn
+      UserData: 
+         Fn::Base64: |
+          #!/bin/bash
+          sudo yum update -y
+          sudo yum install httpd -y
+          sudo systemctl start httpd
+          sudo systemctl enable httpd
+          sudo chmod -R 777 /var/www/html
+          cd /var/www/html
+          wget https://raw.githubusercontent.com/gokhanwell/cfn-repo/main/Project-101-kittens-carousel-static-website-ec2/static-web/index.html
+          wget https://raw.githubusercontent.com/gokhanwell/cfn-repo/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat0.jpg
+          wget https://raw.githubusercontent.com/gokhanwell/cfn-repo/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat2.jpg
+          wget https://raw.githubusercontent.com/gokhanwell/cfn-repo/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat1.jpg
+          wget https://raw.githubusercontent.com/gokhanwell/cfn-repo/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat3.png
